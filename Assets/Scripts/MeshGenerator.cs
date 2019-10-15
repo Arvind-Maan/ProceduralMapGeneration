@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class MeshGenerator 
 {
-    public static MeshData GenerateTerrainMesh(float[,] heightMap)
+    public static MeshData GenerateTerrainMesh(float[,] heightMap, float heightScale)
     {
         int width = heightMap.GetLength(0);
         int height = heightMap.GetLength(1);
@@ -16,8 +16,8 @@ public static class MeshGenerator
         { 
             for(int x = 0; x< width; x++)
             {
-                mesh.vertices[vertexIndex] = new Vector3(topLeft_X + x, heightMap[x, y], topLeft_Z - y);
-                mesh.uvs[vertexIndex] = new Vector2(x/(float)width, y/(float)height);
+                mesh.vertices[vertexIndex] = new Vector3(topLeft_X + x, heightMap[x, y] * heightScale, topLeft_Z - y);
+                mesh.uvs[vertexIndex] = new Vector2(x/((float)width), y/((float)height));
                 //setting up the triangles for the mesh
                 //ignore right and bottom edge vertices since those will already be calculated by previous index.
                 if (x < width - 1 && y < width - 1)
@@ -42,24 +42,25 @@ public class MeshData
     public MeshData(int meshWidth, int meshHeight)
     {
         vertices = new Vector3[meshHeight * meshWidth];
-        triangles = new int[6 * ((meshWidth - 1) * (meshHeight - 1))];
+        triangles = new int[6 *(meshWidth - 1) * (meshHeight - 1)];
         uvs = new Vector2[meshWidth * meshHeight];
     } //end of constructor
 
     public void AddTriangle(int x, int y, int z)
     {
-        triangles[index++] = x;
-        triangles[index++] = y;
-        triangles[index++] = y;
+        triangles[index] = x;
+        triangles[index+1] = y;
+        triangles[index+2] = y;
+        index += 3;
     } //end of addTriangle
     
     public Mesh CreateMesh()
     {
-        Mesh mesh = new Mesh();
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-        mesh.uv = uvs;
-        mesh.RecalculateNormals();
-        return mesh;
+        Mesh toRet = new Mesh();
+        toRet.vertices = vertices;
+        toRet.triangles = triangles;
+        toRet.uv = uvs;
+        toRet.RecalculateNormals();
+        return toRet;
     }
 } //end of class MeshData

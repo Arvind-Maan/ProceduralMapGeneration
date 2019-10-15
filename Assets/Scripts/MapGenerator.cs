@@ -6,7 +6,7 @@ public class MapGenerator : MonoBehaviour
 {
     public enum DrawMode
     {
-        NoiseMap, ColourMap, Mesh
+        NoiseMap, ColourMap, MeshMap
     };
     public DrawMode drawMode;
     public int mapWidth;
@@ -25,6 +25,8 @@ public class MapGenerator : MonoBehaviour
     public Vector2 offset;
 
     public TerrainType[] regions;
+
+    public float meshHeightScale;
 
     public void GenerateMap()
     {
@@ -51,8 +53,8 @@ public class MapGenerator : MonoBehaviour
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
         else if(drawMode == DrawMode.ColourMap)
             display.DrawTexture(TextureGenerator.TextureFromColours(colours, mapWidth, mapHeight));
-        else if (drawMode == DrawMode.Mesh)
-            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap), TextureGenerator.TextureFromColours(colours, mapWidth, mapHeight));
+        else if (drawMode == DrawMode.MeshMap)
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, meshHeightScale), TextureGenerator.TextureFromColours(colours, mapWidth, mapHeight));
     }
 
     //called automatically when a script variable is changed
