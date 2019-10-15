@@ -6,7 +6,7 @@ public class MapGenerator : MonoBehaviour
 {
     public enum DrawMode
     {
-        NoiseMap, ColourMap
+        NoiseMap, ColourMap, Mesh
     };
     public DrawMode drawMode;
     public int mapWidth;
@@ -49,8 +49,10 @@ public class MapGenerator : MonoBehaviour
         MapDisplay display = FindObjectOfType<MapDisplay>();
         if(drawMode == DrawMode.NoiseMap)
             display.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
-        else
+        else if(drawMode == DrawMode.ColourMap)
             display.DrawTexture(TextureGenerator.TextureFromColours(colours, mapWidth, mapHeight));
+        else if (drawMode == DrawMode.Mesh)
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap), TextureGenerator.TextureFromColours(colours, mapWidth, mapHeight));
     }
 
     //called automatically when a script variable is changed
