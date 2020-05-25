@@ -1,6 +1,6 @@
 PerlinNoiseMapGen
 ---
-A procedurally generated map created by perlin noise using C# and Unity.
+A 2D procedurally generated map created by perlin noise using C# and Unity.
 
 
 Generates a noise map using the built in Mathf.perlinnoise function in C#.
@@ -14,5 +14,3 @@ Then applies colours and creates certain regions (a region can be a range of val
 Colour Map: 
 
 ![colourmap](/Images/colourmap.png)
-
-Future plans consist of adding mesh and creating a 3d plane, as opposed to a 2d one.
